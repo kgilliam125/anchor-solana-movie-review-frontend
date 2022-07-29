@@ -59,7 +59,7 @@ export const MovieList: FC = () => {
       {result && (
         <div>
           {Object.keys(result).map((key) => {
-            const data = result[key]
+            const data = result[key as unknown as number]
             return <Card key={key} movie={data} />
           })}
         </div>
