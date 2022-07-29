@@ -27,10 +27,7 @@ const WorkspaceProvider = ({ children }: any) => {
   const provider = new AnchorProvider(connection, wallet, {})
 
   setProvider(provider)
-  const program = new Program(
-    IDL as Idl,
-    programId
-  ) as unknown as Program<MovieReview>
+  const program = new Program(IDL as Idl, programId)
   const workspace = {
     connection,
     provider,
