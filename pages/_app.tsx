@@ -1,13 +1,16 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import { ChakraProvider } from '@chakra-ui/react'
-import WalletContextProvider from '../components/WalletContextProvider'
+import "../styles/globals.css"
+import type { AppProps } from "next/app"
+import { ChakraProvider } from "@chakra-ui/react"
+import WalletContextProvider from "../components/WalletContextProvider"
+import { WorkspaceProvider } from "../workspace"
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>  
+    <ChakraProvider>
       <WalletContextProvider>
-        <Component {...pageProps} />
+        <WorkspaceProvider>
+          <Component {...pageProps} />
+        </WorkspaceProvider>
       </WalletContextProvider>
     </ChakraProvider>
   )
