@@ -2,13 +2,16 @@ import { Card } from "./Card"
 import { FC, useEffect, useState } from "react"
 import { Button, Center, HStack, Input, Spacer } from "@chakra-ui/react"
 import { useWorkspace } from "../workspace"
+import { useWallet } from "@solana/wallet-adapter-react"
 
 export const MovieList: FC = () => {
   const workspace = useWorkspace()
   const [movies, setMovies] = useState<any | null>(null)
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState("")
-  const [result, setResult] = useState("")
+  const [result, setResult] = useState<any | null>(null)
+  const wallet = useWallet()
+  console.log(wallet)
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -43,6 +46,27 @@ export const MovieList: FC = () => {
     }
   }, [page, movies])
 
+  const fetchMyReviews = async () => {
+    if (wallet.connected) {
+      const accounts =
+        (await workspace.program?.account.movieAccountState.all([
+          {
+            memcmp: {
+              offset: 8,
+              bytes: wallet.publicKey!.toBase58(),
+            },
+          },
+        ])) ?? []
+
+      const sort = [...accounts].sort((a, b) =>
+        a.account.title > b.account.title ? 1 : -1
+      )
+      setResult(sort)
+    } else {
+      alert("Please Connect Wallet")
+    }
+  }
+
   return (
     <div>
       <Center>
@@ -54,7 +78,9 @@ export const MovieList: FC = () => {
           w="97%"
           mt={2}
           mb={2}
+          margin={2}
         />
+        <Button onClick={fetchMyReviews}>My Reviews</Button>
       </Center>
       {result && (
         <div>

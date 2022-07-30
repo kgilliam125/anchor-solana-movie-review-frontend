@@ -22,7 +22,7 @@ interface WorkSpace {
 
 const WorkspaceProvider = ({ children }: any) => {
   const wallet = useAnchorWallet() || MockWallet
-  const connection = new Connection("https://api.devnet.solana.com")
+  const { connection } = useConnection()
 
   const provider = new AnchorProvider(connection, wallet, {})
 
