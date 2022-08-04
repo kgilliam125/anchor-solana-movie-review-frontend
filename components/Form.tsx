@@ -36,9 +36,14 @@ export const Form: FC = () => {
       return
     }
 
-    const [movieReviewPda, bump] =
+    const [movieReviewPda] = await anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from(title), publicKey.toBuffer()],
+      program.programId
+    )
+
+    const [movieReviewCounterPda] =
       await anchor.web3.PublicKey.findProgramAddress(
-        [Buffer.from(title), publicKey.toBuffer()],
+        [Buffer.from("counter"), movieReviewPda.toBuffer()],
         program.programId
       )
 
@@ -48,6 +53,7 @@ export const Form: FC = () => {
       .addMovieReview(title, description, rating)
       .accounts({
         movieReview: movieReviewPda,
+        movieCommentCounter: movieReviewCounterPda,
         initializer: publicKey,
         systemProgram: anchor.web3.SystemProgram.programId,
       })

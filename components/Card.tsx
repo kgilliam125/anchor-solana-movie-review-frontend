@@ -3,6 +3,7 @@ import { FC } from "react"
 
 export interface CardProps {
   movie: any
+  onClick: () => void
 }
 
 export const Card: FC<CardProps> = (props) => {
@@ -13,6 +14,10 @@ export const Card: FC<CardProps> = (props) => {
       maxWidth="32rem"
       borderWidth={1}
       margin={2}
+      _hover={{
+        background: "gray.900",
+      }}
+      onClick={props.onClick}
     >
       <Stack
         w="full"
