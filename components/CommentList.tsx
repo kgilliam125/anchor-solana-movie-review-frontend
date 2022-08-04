@@ -24,7 +24,7 @@ export const CommentList: FC<CommentListProps> = ({
 
   useEffect(() => {
     const fetch = async () => {
-      if (program) {
+      if (program && movie) {
         const comments = await program.account.movieComment.all([
           {
             memcmp: {
