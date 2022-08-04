@@ -51,7 +51,7 @@ export const CommentList: FC<CommentListProps> = ({
       <Heading as="h1" size="l" ml={4} mt={2}>
         Existing Comments
       </Heading>
-      {result.map((comment) => (
+      {result.map((comment, index) => (
         <Box
           p={4}
           textAlign={{ base: "left", md: "left" }}
@@ -59,8 +59,9 @@ export const CommentList: FC<CommentListProps> = ({
           maxWidth="32rem"
           borderWidth={1}
           margin={2}
+          key={index}
         >
-          <div key={comment.publicKey}>{comment.account.comment}</div>
+          <div>{comment.account.comment}</div>
         </Box>
       ))}
       <Stack>
