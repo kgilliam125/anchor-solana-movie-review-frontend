@@ -24,7 +24,7 @@ export const CommentList: FC<CommentListProps> = ({
 
   useEffect(() => {
     const fetch = async () => {
-      if (program && movie) {
+      if (program) {
         const comments = await program.account.movieComment.all([
           {
             memcmp: {
@@ -51,7 +51,7 @@ export const CommentList: FC<CommentListProps> = ({
       <Heading as="h1" size="l" ml={4} mt={2}>
         Existing Comments
       </Heading>
-      {result.map((comment, i) => (
+      {result.map((comment) => (
         <Box
           p={4}
           textAlign={{ base: "left", md: "left" }}
@@ -60,7 +60,7 @@ export const CommentList: FC<CommentListProps> = ({
           borderWidth={1}
           margin={2}
         >
-          <div key={i}>{comment.account.comment}</div>
+          <div key={comment}>{comment.account.comment}</div>
         </Box>
       ))}
       <Stack>
