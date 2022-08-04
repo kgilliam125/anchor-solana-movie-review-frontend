@@ -101,11 +101,9 @@ export const MovieList: FC = () => {
       <Heading as="h1" size="l" color="white" ml={4} mt={8}>
         Select Review To Comment
       </Heading>
-      <ReviewDetail
-        isOpen={isOpen}
-        onClose={onClose}
-        movie={selectedMovie ?? null}
-      />
+      {selectedMovie && (
+        <ReviewDetail isOpen={isOpen} onClose={onClose} movie={selectedMovie} />
+      )}
       {result && (
         <div>
           {Object.keys(result).map((key) => {

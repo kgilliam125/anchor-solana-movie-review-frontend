@@ -33,10 +33,6 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
   const { publicKey, sendTransaction } = useWallet()
   const { program } = useWorkspace()
 
-  if (movie == null) {
-    return
-  }
-
   const handleSubmit = async (event: any) => {
     event.preventDefault()
 
