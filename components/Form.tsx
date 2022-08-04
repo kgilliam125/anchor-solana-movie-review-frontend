@@ -12,6 +12,7 @@ import {
   NumberInputField,
   NumberInputStepper,
   Textarea,
+  Switch,
 } from "@chakra-ui/react"
 import * as anchor from "@project-serum/anchor"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
@@ -21,6 +22,7 @@ export const Form: FC = () => {
   const [title, setTitle] = useState("")
   const [rating, setRating] = useState(0)
   const [description, setDescription] = useState("")
+  const [toggle, setToggle] = useState(true)
 
   const { connection } = useConnection()
   const { publicKey, sendTransaction } = useWallet()
@@ -49,18 +51,32 @@ export const Form: FC = () => {
 
     const transaction = new anchor.web3.Transaction()
 
-    const instruction = await program.methods
-      .addMovieReview(title, description, rating)
-      .accounts({
-        movieReview: movieReviewPda,
-        movieCommentCounter: movieReviewCounterPda,
-        initializer: publicKey,
-        systemProgram: anchor.web3.SystemProgram.programId,
-      })
-      .signers([])
-      .instruction()
+    if (toggle) {
+      const instruction = await program.methods
+        .addMovieReview(title, description, rating)
+        .accounts({
+          movieReview: movieReviewPda,
+          movieCommentCounter: movieReviewCounterPda,
+          initializer: publicKey,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .signers([])
+        .instruction()
 
-    transaction.add(instruction)
+      transaction.add(instruction)
+    } else {
+      const instruction = await program.methods
+        .updateMovieReview(title, description, rating)
+        .accounts({
+          movieReview: movieReviewPda,
+          initializer: publicKey,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .signers([])
+        .instruction()
+
+      transaction.add(instruction)
+    }
 
     try {
       let txid = await sendTransaction(transaction, connection)
@@ -115,6 +131,15 @@ export const Form: FC = () => {
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
+        </FormControl>
+        <FormControl display="center" alignItems="center">
+          <FormLabel color="gray.100" mt={2}>
+            Update
+          </FormLabel>
+          <Switch
+            id="update"
+            onChange={(event) => setToggle((prevCheck) => !prevCheck)}
+          />
         </FormControl>
         <Button width="full" mt={4} type="submit">
           Submit Review
