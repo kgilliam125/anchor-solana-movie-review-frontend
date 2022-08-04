@@ -60,7 +60,7 @@ export const CommentList: FC<CommentListProps> = ({
           borderWidth={1}
           margin={2}
         >
-          <div key={comment}>{comment.account.comment}</div>
+          <div key={comment.publicKey}>{comment.account.comment}</div>
         </Box>
       ))}
       <Stack>
