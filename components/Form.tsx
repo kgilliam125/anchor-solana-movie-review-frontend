@@ -15,6 +15,7 @@ import {
   Switch,
 } from "@chakra-ui/react"
 import * as anchor from "@project-serum/anchor"
+import { getAssociatedTokenAddress } from "@solana/spl-token"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { useWorkspace } from "../workspace"
 
@@ -38,16 +39,12 @@ export const Form: FC = () => {
       return
     }
 
-    const [movieReviewPda] = await anchor.web3.PublicKey.findProgramAddress(
-      [Buffer.from(title), publicKey.toBuffer()],
+    const [mintPDA] = await anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from("mint")],
       program.programId
     )
 
-    const [movieReviewCounterPda] =
-      await anchor.web3.PublicKey.findProgramAddress(
-        [Buffer.from("counter"), movieReviewPda.toBuffer()],
-        program.programId
-      )
+    const tokenAddress = await getAssociatedTokenAddress(mintPDA, publicKey)
 
     const transaction = new anchor.web3.Transaction()
 
@@ -55,12 +52,9 @@ export const Form: FC = () => {
       const instruction = await program.methods
         .addMovieReview(title, description, rating)
         .accounts({
-          movieReview: movieReviewPda,
-          movieCommentCounter: movieReviewCounterPda,
+          tokenAccount: tokenAddress,
           initializer: publicKey,
-          systemProgram: anchor.web3.SystemProgram.programId,
         })
-        .signers([])
         .instruction()
 
       transaction.add(instruction)
@@ -68,11 +62,8 @@ export const Form: FC = () => {
       const instruction = await program.methods
         .updateMovieReview(title, description, rating)
         .accounts({
-          movieReview: movieReviewPda,
           initializer: publicKey,
-          systemProgram: anchor.web3.SystemProgram.programId,
         })
-        .signers([])
         .instruction()
 
       transaction.add(instruction)

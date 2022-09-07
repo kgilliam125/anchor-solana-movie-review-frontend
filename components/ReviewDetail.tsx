@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react"
 import { FC, useState } from "react"
 import * as anchor from "@project-serum/anchor"
+import { getAssociatedTokenAddress } from "@solana/spl-token"
 import { CommentList } from "./CommentList"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { useWorkspace } from "../workspace"
@@ -52,30 +53,23 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
         program.programId
       )
 
-    const data = await program.account.movieCommentCounter.fetch(
-      movieReviewCounterPda
-    )
-
-    const [movieCommentPda] = await anchor.web3.PublicKey.findProgramAddress(
-      [
-        movieReviewPda.toBuffer(),
-        new BN(data.counter).toArrayLike(Buffer, "le", 8),
-      ],
+    const [mintPDA] = await anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from("mint")],
       program.programId
     )
+
+    const tokenAddress = await getAssociatedTokenAddress(mintPDA, publicKey)
 
     const transaction = new anchor.web3.Transaction()
 
     const instruction = await program.methods
       .addComment(comment)
       .accounts({
-        movieComment: movieCommentPda,
         movieReview: movieReviewPda,
         movieCommentCounter: movieReviewCounterPda,
+        tokenAccount: tokenAddress,
         initializer: publicKey,
-        systemProgram: anchor.web3.SystemProgram.programId,
       })
-      .signers([])
       .instruction()
 
     transaction.add(instruction)
