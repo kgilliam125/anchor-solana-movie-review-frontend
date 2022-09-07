@@ -8,7 +8,7 @@ import {
   Spacer,
   Heading,
 } from "@chakra-ui/react"
-import { useWorkspace } from "../workspace"
+import { useWorkspace } from "../context/Anchor"
 import { useWallet } from "@solana/wallet-adapter-react"
 import { useDisclosure } from "@chakra-ui/react"
 import { ReviewDetail } from "./ReviewDetail"

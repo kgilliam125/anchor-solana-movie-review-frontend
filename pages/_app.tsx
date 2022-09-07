@@ -1,17 +1,17 @@
 import "../styles/globals.css"
 import type { AppProps } from "next/app"
 import { ChakraProvider } from "@chakra-ui/react"
-import WalletContextProvider from "../components/WalletContextProvider"
-import { WorkspaceProvider } from "../workspace"
+import { ContextProvider } from "../context/WalletContextProvider"
+import { WorkspaceProvider } from "../context/Anchor"
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>
-      <WalletContextProvider>
+      <ContextProvider>
         <WorkspaceProvider>
           <Component {...pageProps} />
         </WorkspaceProvider>
-      </WalletContextProvider>
+      </ContextProvider>
     </ChakraProvider>
   )
 }

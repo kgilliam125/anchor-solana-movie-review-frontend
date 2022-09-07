@@ -17,7 +17,7 @@ import {
 import * as anchor from "@project-serum/anchor"
 import { getAssociatedTokenAddress } from "@solana/spl-token"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
-import { useWorkspace } from "../workspace"
+import { useWorkspace } from "../context/Anchor"
 
 export const Form: FC = () => {
   const [title, setTitle] = useState("")

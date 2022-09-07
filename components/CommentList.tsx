@@ -8,7 +8,7 @@ import {
   Heading,
 } from "@chakra-ui/react"
 import { FC, useState, useEffect } from "react"
-import { useWorkspace } from "../workspace"
+import { useWorkspace } from "../context/Anchor"
 
 interface CommentListProps {
   movie: any
