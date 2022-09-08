@@ -44,7 +44,6 @@ export const MovieList: FC = () => {
           .toLowerCase()
           .startsWith(search.toLowerCase())
       })
-      console.log(filtered)
       setResult(filtered)
     }
   }, [search])
@@ -52,7 +51,6 @@ export const MovieList: FC = () => {
   useEffect(() => {
     if (movies && search == "") {
       const filtered = movies.slice((page - 1) * 3, page * 3)
-      console.log(filtered)
       setResult(filtered)
     }
   }, [page, movies, search])

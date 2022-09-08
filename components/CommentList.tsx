@@ -39,7 +39,6 @@ export const CommentList: FC<CommentListProps> = ({
         )
         setComments(comments)
         const filtered = sort.slice((page - 1) * 3, page * 3)
-        console.log(filtered)
         setResult(filtered)
       }
     }

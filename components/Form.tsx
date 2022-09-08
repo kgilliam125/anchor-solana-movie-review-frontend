@@ -53,7 +53,6 @@ export const Form: FC = () => {
         .addMovieReview(title, description, rating)
         .accounts({
           tokenAccount: tokenAddress,
-          initializer: publicKey,
         })
         .instruction()
 
@@ -61,9 +60,6 @@ export const Form: FC = () => {
     } else {
       const instruction = await program.methods
         .updateMovieReview(title, description, rating)
-        .accounts({
-          initializer: publicKey,
-        })
         .instruction()
 
       transaction.add(instruction)

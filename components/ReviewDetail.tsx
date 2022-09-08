@@ -16,6 +16,7 @@ import { getAssociatedTokenAddress } from "@solana/spl-token"
 import { CommentList } from "./CommentList"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { useWorkspace } from "../context/Anchor"
+import BN from "bn.js"
 
 interface ReviewDetailProps {
   isOpen: boolean
@@ -41,14 +42,11 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
       return
     }
 
-    const [movieReviewPda] = await anchor.web3.PublicKey.findProgramAddress(
-      [Buffer.from(movie.account.title), publicKey.toBuffer()],
-      program.programId
-    )
+    const movieReview = new anchor.web3.PublicKey(movie.publicKey)
 
     const [movieReviewCounterPda] =
       await anchor.web3.PublicKey.findProgramAddress(
-        [Buffer.from("counter"), movieReviewPda.toBuffer()],
+        [Buffer.from("counter"), movieReview.toBuffer()],
         program.programId
       )
 
@@ -64,10 +62,9 @@ export const ReviewDetail: FC<ReviewDetailProps> = ({
     const instruction = await program.methods
       .addComment(comment)
       .accounts({
-        movieReview: movieReviewPda,
+        movieReview: movieReview,
         movieCommentCounter: movieReviewCounterPda,
         tokenAccount: tokenAddress,
-        initializer: publicKey,
       })
       .instruction()
 
