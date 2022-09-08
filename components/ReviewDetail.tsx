@@ -16,7 +16,6 @@ import { getAssociatedTokenAddress } from "@solana/spl-token"
 import { CommentList } from "./CommentList"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { useWorkspace } from "../context/Anchor"
-import BN from "bn.js"
 
 interface ReviewDetailProps {
   isOpen: boolean

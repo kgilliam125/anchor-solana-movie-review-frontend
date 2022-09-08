@@ -6,13 +6,13 @@ import { WorkspaceProvider } from "../context/Anchor"
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
-      <ContextProvider>
+    <ContextProvider>
+      <ChakraProvider>
         <WorkspaceProvider>
           <Component {...pageProps} />
         </WorkspaceProvider>
-      </ContextProvider>
-    </ChakraProvider>
+      </ChakraProvider>
+    </ContextProvider>
   )
 }
 

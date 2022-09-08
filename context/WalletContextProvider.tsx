@@ -11,7 +11,7 @@ require("@solana/wallet-adapter-react-ui/styles.css")
 
 const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { autoConnect } = useAutoConnect()
-  const endpoint = web3.clusterApiUrl("devnet")
+  const endpoint = "https://devnet.genesysgo.net/"
   const wallets = [
     new walletAdapterWallets.PhantomWalletAdapter(),
     new walletAdapterWallets.SolflareWalletAdapter(),

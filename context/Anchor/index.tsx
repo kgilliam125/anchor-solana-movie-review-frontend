@@ -11,7 +11,7 @@ import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react"
 import MockWallet from "./MockWallet"
 
 const WorkspaceContext = createContext({})
-const programId = new PublicKey("Ei4pESv6hd9iTch4Ji2qCP4KQcQ7jopCbiHCUsh1R8Jp")
+const programId = new PublicKey("G9w6Uyj2uiX4jQ2Dbnavgu3zu3T3JEHyDiPc1UjX578E")
 
 interface WorkSpace {
   connection?: Connection
