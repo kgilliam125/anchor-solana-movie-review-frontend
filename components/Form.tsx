@@ -44,6 +44,17 @@ export const Form: FC = () => {
       program.programId
     )
 
+    const [movieReviewPda] = await anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from(title), publicKey.toBuffer()],
+      program.programId
+    )
+
+    const [movieReviewCounterPda] =
+      await anchor.web3.PublicKey.findProgramAddress(
+        [Buffer.from("counter"), movieReviewPda.toBuffer()],
+        program.programId
+      )
+
     const tokenAddress = await getAssociatedTokenAddress(mintPDA, publicKey)
 
     const transaction = new anchor.web3.Transaction()
@@ -52,6 +63,9 @@ export const Form: FC = () => {
       const instruction = await program.methods
         .addMovieReview(title, description, rating)
         .accounts({
+          movieReview: movieReviewPda,
+          movieCommentCounter: movieReviewCounterPda,
+          rewardMint: mintPDA,
           tokenAccount: tokenAddress,
         })
         .instruction()
@@ -60,6 +74,7 @@ export const Form: FC = () => {
     } else {
       const instruction = await program.methods
         .updateMovieReview(title, description, rating)
+        .accounts({ movieReview: movieReviewPda })
         .instruction()
 
       transaction.add(instruction)
