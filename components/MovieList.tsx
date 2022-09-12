@@ -24,17 +24,16 @@ export const MovieList: FC = () => {
   const wallet = useWallet()
 
   useEffect(() => {
-    const fetchAccounts = async () => {
-      if (program) {
-        const accounts = (await program.account.movieAccountState.all()) ?? []
-
-        const sort = [...accounts].sort((a, b) =>
-          a.account.title > b.account.title ? 1 : -1
-        )
-        setMovies(sort)
-      }
-    }
-    fetchAccounts()
+    // const fetchAccounts = async () => {
+    //   if (program) {
+    //     const accounts = (await program.account.movieAccountState.all()) ?? []
+    //     const sort = [...accounts].sort((a, b) =>
+    //       a.account.title > b.account.title ? 1 : -1
+    //     )
+    //     setMovies(sort)
+    //   }
+    // }
+    // fetchAccounts()
   }, [])
 
   useEffect(() => {
@@ -56,24 +55,23 @@ export const MovieList: FC = () => {
   }, [page, movies, search])
 
   const fetchMyReviews = async () => {
-    if (wallet.connected && program) {
-      const accounts =
-        (await program.account.movieAccountState.all([
-          {
-            memcmp: {
-              offset: 8,
-              bytes: wallet.publicKey!.toBase58(),
-            },
-          },
-        ])) ?? []
-
-      const sort = [...accounts].sort((a, b) =>
-        a.account.title > b.account.title ? 1 : -1
-      )
-      setResult(sort)
-    } else {
-      alert("Please Connect Wallet")
-    }
+    // if (wallet.connected && program) {
+    //   const accounts =
+    //     (await program.account.movieAccountState.all([
+    //       {
+    //         memcmp: {
+    //           offset: 8,
+    //           bytes: wallet.publicKey!.toBase58(),
+    //         },
+    //       },
+    //     ])) ?? []
+    //   const sort = [...accounts].sort((a, b) =>
+    //     a.account.title > b.account.title ? 1 : -1
+    //   )
+    //   setResult(sort)
+    // } else {
+    //   alert("Please Connect Wallet")
+    // }
   }
 
   const handleReviewSelected = (data: any) => {

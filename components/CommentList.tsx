@@ -24,23 +24,22 @@ export const CommentList: FC<CommentListProps> = ({
 
   useEffect(() => {
     const fetch = async () => {
-      if (program) {
-        const comments = await program.account.movieComment.all([
-          {
-            memcmp: {
-              offset: 8,
-              bytes: movie.publicKey.toBase58(),
-            },
-          },
-        ])
-
-        const sort = [...comments].sort((a, b) =>
-          a.account.count > b.account.count ? 1 : -1
-        )
-        setComments(comments)
-        const filtered = sort.slice((page - 1) * 3, page * 3)
-        setResult(filtered)
-      }
+      // if (program) {
+      //   const comments = await program.account.movieComment.all([
+      //     {
+      //       memcmp: {
+      //         offset: 8,
+      //         bytes: movie.publicKey.toBase58(),
+      //       },
+      //     },
+      //   ])
+      //   const sort = [...comments].sort((a, b) =>
+      //     a.account.count > b.account.count ? 1 : -1
+      //   )
+      //   setComments(comments)
+      //   const filtered = sort.slice((page - 1) * 3, page * 3)
+      //   setResult(filtered)
+      // }
     }
     fetch()
   }, [page])

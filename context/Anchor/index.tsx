@@ -19,32 +19,28 @@ interface WorkSpace {
   connection?: Connection
   provider?: AnchorProvider
   program?: Program<MovieReview>
-  // program?: Program<MovieReview>
 }
 
 const WorkspaceProvider = ({ children }: any) => {
-  const wallet = useAnchorWallet() || MockWallet
-  const { connection } = useConnection()
-
-  const provider = new AnchorProvider(connection, wallet, {})
-
-  setProvider(provider)
-  // const program = new Program(IDL as Idl, programId)
-  const program = new Program(
-    idl as Idl,
-    programId
-  ) as unknown as Program<MovieReview>
-  const workspace = {
-    connection,
-    provider,
-    program,
-  }
-
-  return (
-    <WorkspaceContext.Provider value={workspace}>
-      {children}
-    </WorkspaceContext.Provider>
-  )
+  // const wallet = useAnchorWallet() || MockWallet
+  // const { connection } = useConnection()
+  // const provider = new AnchorProvider(connection, wallet, {})
+  // setProvider(provider)
+  // // const program = new Program(IDL as Idl, programId)
+  // const program = new Program(
+  //   idl as Idl,
+  //   programId
+  // ) as unknown as Program<MovieReview>
+  // const workspace = {
+  //   connection,
+  //   provider,
+  //   program,
+  // }
+  // return (
+  //   <WorkspaceContext.Provider value={workspace}>
+  //     {children}
+  //   </WorkspaceContext.Provider>
+  // )
 }
 
 const useWorkspace = (): WorkSpace => {
