@@ -31,58 +31,7 @@ export const Form: FC = () => {
   const workspace = useWorkspace()
   const program = workspace.program
 
-  const handleSubmit = async (event: any) => {
-    // event.preventDefault()
-    // if (!publicKey || !program) {
-    //   alert("Please connect your wallet!")
-    //   return
-    // }
-    // const [mintPDA] = await anchor.web3.PublicKey.findProgramAddress(
-    //   [Buffer.from("mint")],
-    //   program.programId
-    // )
-    // const [movieReviewPda] = await anchor.web3.PublicKey.findProgramAddress(
-    //   [Buffer.from(title), publicKey.toBuffer()],
-    //   program.programId
-    // )
-    // const [movieReviewCounterPda] =
-    //   await anchor.web3.PublicKey.findProgramAddress(
-    //     [Buffer.from("counter"), movieReviewPda.toBuffer()],
-    //     program.programId
-    //   )
-    // const tokenAddress = await getAssociatedTokenAddress(mintPDA, publicKey)
-    // const transaction = new anchor.web3.Transaction()
-    // if (toggle) {
-    //   const instruction = await program.methods
-    //     .addMovieReview(title, description, rating)
-    //     .accounts({
-    //       movieReview: movieReviewPda,
-    //       movieCommentCounter: movieReviewCounterPda,
-    //       rewardMint: mintPDA,
-    //       tokenAccount: tokenAddress,
-    //     })
-    //     .instruction()
-    //   transaction.add(instruction)
-    // } else {
-    //   const instruction = await program.methods
-    //     .updateMovieReview(title, description, rating)
-    //     .accounts({ movieReview: movieReviewPda })
-    //     .instruction()
-    //   transaction.add(instruction)
-    // }
-    // try {
-    //   let txid = await sendTransaction(transaction, connection)
-    //   alert(
-    //     `Transaction submitted: https://explorer.solana.com/tx/${txid}?cluster=devnet`
-    //   )
-    //   console.log(
-    //     `Transaction submitted: https://explorer.solana.com/tx/${txid}?cluster=devnet`
-    //   )
-    // } catch (e) {
-    //   console.log(JSON.stringify(e))
-    //   alert(JSON.stringify(e))
-    // }
-  }
+  const handleSubmit = async (event: any) => {}
 
   return (
     <Box

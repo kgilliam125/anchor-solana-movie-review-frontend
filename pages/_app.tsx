@@ -8,9 +8,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WalletContextProvider>
       <ChakraProvider>
-        {/* <WorkspaceProvider> */}
-        <Component {...pageProps} />
-        {/* </WorkspaceProvider> */}
+        <WorkspaceProvider>
+          <Component {...pageProps} />
+        </WorkspaceProvider>
       </ChakraProvider>
     </WalletContextProvider>
   )
