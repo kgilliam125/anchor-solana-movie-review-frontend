@@ -1,5 +1,5 @@
-import { FC } from "react"
-import { useState } from "react"
+import { FC } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -13,26 +13,71 @@ import {
   NumberInputStepper,
   Textarea,
   Switch,
-} from "@chakra-ui/react"
-import * as anchor from "@project-serum/anchor"
-import { getAssociatedTokenAddress } from "@solana/spl-token"
-import { useConnection, useWallet } from "@solana/wallet-adapter-react"
-import { useWorkspace } from "../context/Anchor"
+} from "@chakra-ui/react";
+import * as anchor from "@project-serum/anchor";
+import { getAssociatedTokenAddress } from "@solana/spl-token";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useWorkspace } from "../context/Anchor";
+import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pubkey";
 
 export const Form: FC = () => {
-  const [title, setTitle] = useState("")
-  const [rating, setRating] = useState(0)
-  const [description, setDescription] = useState("")
-  const [toggle, setToggle] = useState(true)
+  const [title, setTitle] = useState("");
+  const [rating, setRating] = useState(0);
+  const [description, setDescription] = useState("");
+  const [toggle, setToggle] = useState(true);
 
-  const { connection } = useConnection()
-  const { publicKey, sendTransaction } = useWallet()
+  const workspace = useWorkspace();
+  const { publicKey, sendTransaction } = useWallet();
 
-  const workspace = useWorkspace()
-  const program = workspace.program
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
 
-  const handleSubmit = async (event: any) => {}
+    if (!publicKey || !workspace.program || !workspace.connection) {
+      alert("Please connection your wallet");
+      return;
+    }
 
+    const [mintPda] = findProgramAddressSync(
+      [Buffer.from("mint")],
+      workspace.program.programId
+    );
+
+    const tokenAddress = await getAssociatedTokenAddress(mintPda, publicKey);
+
+    const transaction = new anchor.web3.Transaction();
+
+    if (toggle) {
+      // add
+      const ix = await workspace.program.methods
+        .addMovieReview(title, description, rating)
+        .accounts({
+          tokenAccount: tokenAddress,
+        })
+        .instruction();
+
+      transaction.add(ix);
+    } else {
+      // update
+      const ix = await workspace.program.methods
+        .updateMovieReview(title, description, rating)
+        .instruction();
+
+      transaction.add(ix);
+    }
+
+    try {
+      const signature = await sendTransaction(
+        transaction,
+        workspace.connection
+      );
+      console.log(
+        `Transaction submitting: https://explorer.solana/com/tx/${signature}?cluster=devnet`
+      );
+    } catch (e) {
+      console.log("Error: ", JSON.stringify(e));
+      alert(e);
+    }
+  };
   return (
     <Box
       p={4}
@@ -87,5 +132,5 @@ export const Form: FC = () => {
         </Button>
       </form>
     </Box>
-  )
-}
+  );
+};
